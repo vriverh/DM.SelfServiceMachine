@@ -67,42 +67,13 @@ namespace DM.LocalServices.Repository.VirtualRepository
         /// <summary>
         /// 人脸比较
         /// </summary>
-        /// <param name="compFaceInfo"></param>
+        /// <param name="faceImage1"></param>
+        /// <param name="faceImage2"></param>
         /// <returns></returns>
-        public int CompFace(string faceImage1,string faceImage2)
+        public int CompFace(string faceImage1, string faceImage2)
         {
-            //InitFace();
-            return configuration.GetValue<int>("CompFace");
-        }
-
-
-        /// <summary>
-        /// 算法句柄
-        /// </summary>
-        private int hCtx = 0;
-
-        /// <summary>
-        /// 二进制特征的长度
-        /// </summary>
-        private int featureLength = 0;
-
-        private void InitFace()
-        {
-            if (hCtx == 0)
-            {
-                int[] hCtxs = { 0 };
-                int nRetInit = TaiSDK.FaceInit(hCtxs);
-                if (nRetInit > 0)
-                {
-                    hCtx = hCtxs[0];
-                    featureLength = nRetInit;
-                }
-                else
-                {
-                    string errorStr = "初始化算法发生错误，算法错误返回值：" + nRetInit;
-                    throw new ApplicationException(errorStr);
-                }
-            }
+            // 虚拟实现，返回配置中的值或默认值
+            return configuration.GetValue<int>("CompFace", 85);
         }
     }
 }

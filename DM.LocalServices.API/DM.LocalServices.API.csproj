@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DM.LocalServices.Models\DM.LocalServices.Models.csproj" />
+    <ProjectReference Include="..\DM.LocalServices.Repository\DM.LocalServices.Repository.csproj" />
+    <ProjectReference Include="..\DM.LocalServices.Device\DM.LocalServices.Device.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.8" />
+  </ItemGroup>
+
+</Project>

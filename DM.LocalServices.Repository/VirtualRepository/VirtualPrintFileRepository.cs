@@ -1,55 +1,40 @@
-﻿using DM.LocalServices.Models;
+using DM.LocalServices.Models;
 using DM.LocalServices.Repository.IRepository;
-using DM.LocalServices.Repository.LocalRepository;
-using DM.LocalServices.Device.Abstractions;
 using Microsoft.Extensions.Logging;
-using Spire.Pdf;
-using Spire.Pdf.General.Find;
-using Spire.Pdf.Widget;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using static Vanara.PInvoke.Gdi32;
-using static Vanara.PInvoke.WinSpool;
 
 namespace DM.LocalServices.Repository.VirtualRepository
 {
     public class VirtualPrintFileRepository : IPrintFileRepository
     {
+        private readonly ILogger<VirtualPrintFileRepository> logger;
 
-        public VirtualPrintFileRepository()
+        public VirtualPrintFileRepository(ILogger<VirtualPrintFileRepository> logger)
         {
+            this.logger = logger;
         }
 
         public void Print(PrintFileInfo printFileInfo)
         {
-            byte[] fileBytes;
-            if (printFileInfo.TranType == 1)
+            try
             {
-                fileBytes = Convert.FromBase64String(printFileInfo.FileContent);
+                logger.LogInformation("虚拟打印文件，文件类型：{FileExtend}", printFileInfo.FileExtend);
+                // 模拟打印成功
             }
-            else
+            catch (Exception ex)
             {
-                fileBytes = File.ReadAllBytes(printFileInfo.FilePath);
+                logger.LogError(ex, "虚拟打印文件时发生错误");
             }
-
-            //if (printFileInfo.FileExtend.Trim().ToLower() == "pdfd")
-            //{
-            //    fileBytes = PdfTool.RemoveSignature(fileBytes);
-            //}
-
-            File.WriteAllBytes("D:\\test-1.pdf", fileBytes);
         }
 
-        
         public PrinterStatus GetPrinterStatus()
         {
-            return new PrinterStatus() { Code = 0, Desc = "测试内容正常" };
+            logger.LogInformation("获取虚拟打印机状态");
+            return new PrinterStatus
+            {
+                Code = 0,
+                Desc = "虚拟打印机正常"
+            };
         }
     }
 }

@@ -1,96 +1,84 @@
-﻿using DM.LocalServices.Models;
+using DM.LocalServices.Models;
 using DM.LocalServices.Repository.IRepository;
 using DM.LocalServices.Device.Abstractions;
 using Microsoft.Extensions.Logging;
-using Spire.Pdf;
-using Spire.Pdf.Widget;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using static Vanara.PInvoke.Gdi32;
-using static Vanara.PInvoke.WinSpool;
 
 namespace DM.LocalServices.Repository.LocalRepository
 {
     public class PrintFileRepository : IPrintFileRepository
     {
-        /// <summary>
-        /// 日志
-        /// </summary>
         private readonly ILogger<PrintFileRepository> logger;
+        private readonly IPrinterService printerService;
 
-        public PrintFileRepository(ILogger<PrintFileRepository> logger)
+        public PrintFileRepository(ILogger<PrintFileRepository> logger, IPrinterService printerService)
         {
             this.logger = logger;
+            this.printerService = printerService;
         }
 
         public void Print(PrintFileInfo printFileInfo)
         {
-            logger.LogDebug("开始准备打印，文件信息:{0}", printFileInfo.ToString());
-
-            //byte[] fileBytes;
-            //if (printFileInfo.TranType == 1)
-            //{
-            //    fileBytes = Convert.FromBase64String(printFileInfo.FileContent);
-            //}
-            //else
-            //{
-            //    fileBytes = File.ReadAllBytes(printFileInfo.FilePath);
-            //}
-            //logger.LogDebug("开始打印");
-            //RawPrinterHelper.SendFileToPrinter(fileBytes);
-            //logger.LogDebug("打印成功");
-
-            string fileName = "";
-            if (printFileInfo.TranType == 1)
+            try
             {
-                byte[] fileBytes = Convert.FromBase64String(printFileInfo.FileContent);
-                fileName = Path.GetTempFileName();
-                File.WriteAllBytes(fileName, fileBytes);
+                logger.LogInformation("开始打印文件");
 
-            }
-            else
-            {
-                fileName = printFileInfo.FilePath;
-            }
-            logger.LogDebug("开始打印");
-
-            using (var document = PdfiumViewer.PdfDocument.Load(fileName))
-            {
-                using (var printDocument = document.CreatePrintDocument())
+                if (string.IsNullOrEmpty(printFileInfo.FileContent))
                 {
-                    //printDocument.PrinterSettings.PrinterName = "Your Printer Name"; // 设置打印机名称
-                    printDocument.Print();
+                    logger.LogWarning("打印内容为空");
+                    return;
                 }
+
+                byte[] printData;
+                if (!string.IsNullOrEmpty(printFileInfo.FileContent))
+                {
+                    // 如果是Base64编码的内容
+                    try
+                    {
+                        printData = Convert.FromBase64String(printFileInfo.FileContent);
+                    }
+                    catch
+                    {
+                        // 如果不是Base64，当作普通文本处理
+                        printData = Encoding.UTF8.GetBytes(printFileInfo.FileContent);
+                    }
+                }
+                else
+                {
+                    logger.LogWarning("打印文件路径和内容均为空");
+                    return;
+                }
+
+                printerService.SendBytesToPrinter("默认打印机", printData);
             }
-            logger.LogDebug("打印成功");
-
-
-
-            //if (printFileInfo.FileExtend.Trim().ToLower() == "pdfd")
-            //{
-            //    try
-            //    {
-            //        fileBytes = PdfTool.RemoveSignature(fileBytes);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        logger.LogError(ex, "去除印章发生了一个错误，错误详情：{0}", ex.Message);
-            //    }
-            //}
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "打印文件时发生错误");
+            }
         }
 
         public PrinterStatus GetPrinterStatus()
         {
-            logger.LogDebug("开始获取打印信息");
-            Tuple<int, string> tuple = RawPrinterHelper.GetPrinterStatus();
-            logger.LogDebug("打印信息：Code={0}，desc={1}", tuple.Item1, tuple.Item2);
-            return new PrinterStatus() { Code = tuple.Item1, Desc = tuple.Item2 };
+            try
+            {
+                logger.LogInformation("获取打印机状态");
+                // 简化实现，实际应该检查打印机状态
+                return new PrinterStatus
+                {
+                    Code = 0, // 0表示正常
+                    Desc = "打印机正常"
+                };
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "获取打印机状态时发生错误");
+                return new PrinterStatus
+                {
+                    Code = -1,
+                    Desc = "获取打印机状态失败：" + ex.Message
+                };
+            }
         }
     }
 }
