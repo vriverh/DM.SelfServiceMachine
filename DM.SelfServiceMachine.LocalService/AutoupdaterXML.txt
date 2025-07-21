@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding="utf-8" ?>
+<item>
+    <version>{version}</version>
+    <url>{url}</url>
+    <mandatory mode="{mode}">{mandatory}</mandatory>
+</item>

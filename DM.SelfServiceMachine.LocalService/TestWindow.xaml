@@ -1,0 +1,26 @@
+﻿<Window x:Class="DM.SelfServiceMachine.LocalService.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DM.SelfServiceMachine.LocalService"
+        mc:Ignorable="d"
+        Title="TestWindow" Height="800" Width="400" Left="0" Top="0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <Button Content="打开摄像头" x:Name="open" Click="open_Click"/>
+            <Button Content="获取当前照片" x:Name="getCurrentImage" Click="getCurrentImage_Click"/>
+            <Button Content="获取人脸照片" x:Name="getFaceImage" Click="getFaceImage_Click"/>
+            <Button Content="关闭摄像头" x:Name="close" Click="close_Click"/>
+            <Button Content="开始人相对比" x:Name="compFace" Click="compFace_Click"/>
+            <Button Content="读取身份证" x:Name="readIDCard" Click="readIDCard_Click" />
+        </StackPanel>
+        <GroupBox Header="日志" Grid.Row="1">
+            <TextBlock x:Name="tblog" TextWrapping="Wrap"></TextBlock>
+        </GroupBox>
+    </Grid>
+</Window>

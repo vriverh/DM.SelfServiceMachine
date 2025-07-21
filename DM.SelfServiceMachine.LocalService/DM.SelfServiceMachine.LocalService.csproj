@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
+    <Platforms>x86</Platforms>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>DMlogo.ico</ApplicationIcon>
+    <AssemblyVersion>1.2.22.0830</AssemblyVersion>
+    <FileVersion>1.2.22.0830</FileVersion>
+    <Version>1.2.22.0830</Version>
+    <StartupObject>DM.SelfServiceMachine.LocalService.App</StartupObject>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.7.0" />
+    <PackageReference Include="FreeSpire.PDF" Version="7.8.9" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3296.44" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.37" />
+    <PackageReference Include="PdfiumViewer" Version="2.13.0" />
+    <PackageReference Include="PdfiumViewer.Native.x86.v8-xfa" Version="2018.4.8.256" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Management" Version="6.0.2" />
+    <PackageReference Include="Vanara.PInvoke.Printing" Version="3.3.13" />
+    <PackageReference Include="WebApiClientCore" Version="2.0.2" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="brQueryPrinterLib">
+      <HintPath>..\ThirdPartyDLL\brQueryPrinterLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+    <None Update="xmlSamples.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="AutoupdaterXML.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(ConfigurationName) == Debug (&#xD;&#xA;  xcopy $(SolutionDir)ThirdPartyDLL\*.* $(OutDir) /y/e&#xD;&#xA;) ELSE (&#xD;&#xA;  xcopy $(SolutionDir)ThirdPartyDLL\*.* $(OutDir) /y/e&#xD;&#xA;  cd $(OutDir)&#xD;&#xA;  del ..\$(TargetName).zip&#xD;&#xA;  del appsettings.Development.json&#xD;&#xA;  zip -r ..\$(TargetName).zip *&#xD;&#xA;  start $(TargetDir)..\&#xD;&#xA;)" />
+  </Target>-->
+</Project>
