@@ -21,13 +21,13 @@ public partial class MainWindow : Window
     private async void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
         // TODO: Initialize WebView component when Avalonia.WebView becomes available
-        // For now, we'll show a placeholder
-        await Task.Delay(1000); // Simulate loading
+        // For now, we'll show the URL in the placeholder
+        await Task.Delay(500); // Simulate loading
         
-        // Hide loading text
-        if (WebViewContainer.Children.Count > 0)
+        // Update the URL display
+        if (WebViewContainer.Children.Count > 0 && WebViewContainer.Children[0] is StackPanel sp)
         {
-            WebViewContainer.Children.Clear();
+            // URL is already bound to CurrentUrl property
         }
     }
 

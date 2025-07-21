@@ -1,6 +1,8 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="DM.LocalServices.WebView.Views.MainWindow"
+        x:DataType="views:MainWindow"
+        xmlns:views="clr-namespace:DM.LocalServices.WebView.Views"
         Title="DM自助查档机"
         Width="1920" Height="1080"
         WindowState="Maximized"
@@ -31,9 +33,13 @@
         
         <!-- WebView Content -->
         <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
-            <!-- WebView will be added here programmatically -->
+            <!-- TODO: Implement WebView when Avalonia.WebView becomes available -->
             <Panel x:Name="WebViewContainer" Background="White">
-                <TextBlock Text="正在加载..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="DM自助查档机" HorizontalAlignment="Center" FontSize="48" FontWeight="Bold" Margin="0,0,0,20"/>
+                    <TextBlock Text="WebView 功能将在后续版本中实现" HorizontalAlignment="Center" FontSize="24" Foreground="Gray"/>
+                    <TextBlock Text="{Binding CurrentUrl}" HorizontalAlignment="Center" FontSize="16" Margin="0,20,0,0"/>
+                </StackPanel>
             </Panel>
         </Border>
         
