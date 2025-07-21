@@ -1,0 +1,52 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DM.LocalServices.WebView.Views.MainWindow"
+        Title="DM自助查档机"
+        Width="1920" Height="1080"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Navigation Controls (Hidden by default, can be shown for debugging) -->
+        <Grid Grid.Row="0" IsVisible="False" x:Name="NavigationGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0" Content="返回" Width="60" Margin="5" Click="BackButton_Click"/>
+            <Button Grid.Column="1" Content="前进" Width="60" Margin="5" Click="ForwardButton_Click"/>
+            <Button Grid.Column="2" Content="刷新" Width="60" Margin="5" Click="ReloadButton_Click"/>
+            <TextBox Grid.Column="3" x:Name="AddressTextBox" Margin="5" Text="{Binding CurrentUrl}" KeyDown="AddressTextBox_KeyDown"/>
+            <Button Grid.Column="4" Content="转到" Width="60" Margin="5" Click="GoButton_Click"/>
+        </Grid>
+        
+        <!-- WebView Content -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1">
+            <!-- WebView will be added here programmatically -->
+            <Panel x:Name="WebViewContainer" Background="White">
+                <TextBlock Text="正在加载..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+            </Panel>
+        </Border>
+        
+        <!-- Error Display -->
+        <Grid x:Name="ErrorGrid" IsVisible="False" Background="Red">
+            <TextBlock Text="网络连接错误" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                      FontSize="48" Foreground="White"/>
+        </Grid>
+        
+        <!-- Exit Button (Hidden, positioned at top-left corner) -->
+        <Button Width="100" Height="100" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Opacity="0.01" Background="Transparent"
+                Click="ExitButton_Click" />
+    </Grid>
+</Window>
